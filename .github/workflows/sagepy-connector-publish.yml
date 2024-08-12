@@ -71,7 +71,50 @@ jobs:
           cd sagepy-connector
           maturin build --release
 
+      - name: Upload sagepy-connector wheel
+        uses: actions/upload-artifact@v3
+        with:
+          name: sagepy-connector-wheel-${{ matrix.os }}-${{ matrix.python-version }}
+          path: sagepy-connector/target/wheels/*.whl
+
       - name: Build sagepy package
         run: |
-          cd ../sagepy
+          cd ..
+          cd sagepy
           pip install .
+
+      - name: Upload sagepy wheel
+        uses: actions/upload-artifact@v3
+        with:
+          name: sagepy-wheel-${{ matrix.os }}-${{ matrix.python-version }}
+          path: sagepy/dist/*.whl
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build-and-publish
+    steps:
+      - name: Download sagepy-connector wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: sagepy-connector-wheel-${{ matrix.os }}-${{ matrix.python-version }}
+
+      - name: Download sagepy wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: sagepy-wheel-${{ matrix.os }}-${{ matrix.python-version }}
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: sagepy-connector-wheel-${{ matrix.os }}-${{ matrix.python-version }}/*.whl
+          asset_name: sagepy-connector-${{ matrix.os }}-${{ matrix.python-version }}.whl
+          asset_content_type: application/zip
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: sagepy-wheel-${{ matrix.os }}-${{ matrix.python-version }}/*.whl
+          asset_name: sagepy-${{ matrix.os }}-${{ matrix.python-version }}.whl
+          asset_content_type: application/zip
