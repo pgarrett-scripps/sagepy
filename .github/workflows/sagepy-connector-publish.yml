@@ -66,7 +66,12 @@ jobs:
       - name: Change to sagepy-connector directory
         run: cd sagepy-connector
 
-      - name: Build with Maturin
+      - name: Build sagepy-connector package
         run: |
           cd sagepy-connector
           maturin build --release
+
+      - name: Build sagepy package
+        run: |
+          cd ../sagepy
+          pip install .
