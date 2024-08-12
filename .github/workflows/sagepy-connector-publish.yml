@@ -79,7 +79,6 @@ jobs:
 
       - name: Build sagepy package
         run: |
-          cd ..
           cd sagepy
           pip install .
 
