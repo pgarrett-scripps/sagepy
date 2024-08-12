@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use rand::distributions::{Uniform, Distribution};
+use rand_distr::{Uniform, Distribution};
 
 /// Convert a mass to a Unimod string
 ///

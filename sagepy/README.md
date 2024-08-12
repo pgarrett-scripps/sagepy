@@ -16,7 +16,7 @@ pip install sagepy
 
 1. Clone our fork of the SAGE repository:
 ```
-git clone git@github.com:theGreatHerrLebert/sage.git
+git clone git@github.com:theGreatHerrLebert/sagepy.git
 ```
 
 2. Install the sage-core bindings using maturin, optionally in a virtual environment:
@@ -30,7 +30,7 @@ pip install maturin
 maturin build --release
 
 # Install the bindings
-pip install target/wheels/sagepy_connector-0.1.0-cp38-cp38-manylinux2014_x86_64.whl [--force-reinstall]
+pip install target/wheels/sagepy_connector-*.whl
 ```
 This will provide you with a python exposed version of the core SAGE library.
 
@@ -41,10 +41,7 @@ git clone git@github.com:theGreatHerrLebert/sagepy.git
 cd sagepy
 
 # Install poetry
-pip install poetry
-
-# Install sagepy
-poetry install
+pip install .
 ```
 
 ## Usage

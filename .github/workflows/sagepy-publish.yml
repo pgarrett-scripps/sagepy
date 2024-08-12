@@ -12,9 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.11']
+        python-version: ['3.10','3.11','3.12']
         include:
+          - python-version: '3.10'
+            publish: true
           - python-version: '3.11'
+            publish: true
+          - python-version: '3.12'
             publish: true
 
     steps:
@@ -37,12 +41,3 @@ jobs:
         run: |
           cd sagepy
           poetry build
-
-      - name: Publish package
-        if: matrix.publish
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.SAGEPY_PYPI_API_TOKEN }}
-        run: |
-          cd sagepy
-          poetry config http-basic.pypi __token__ $POETRY_PYPI_TOKEN_PYPI
-          poetry publish
